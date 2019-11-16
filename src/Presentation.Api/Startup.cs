@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Repository.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Presentation.Api.Configurations;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace SmartMed
@@ -22,7 +25,6 @@ namespace SmartMed
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services
@@ -34,9 +36,11 @@ namespace SmartMed
                 c.SwaggerDoc("v1", new Info { Title = "SmartMed V1", Version = "v1" });
             });
 
+            services
+                .AddDbContext<SmartMedContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:SmartMedConnection"]))
+                .ConfigureServices();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

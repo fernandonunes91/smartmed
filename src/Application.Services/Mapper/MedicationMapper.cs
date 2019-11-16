@@ -15,5 +15,16 @@
                 Quantity = medication.Quantity
             };
         }
+
+        public static Model.Medication ToModel(this Dto.Medication medication)
+        {
+            return new Model.Medication
+            {
+                CreateDate = medication.CreateDate,
+                Id = medication.Id,
+                Name = medication.Name,
+                Quantity = medication.Quantity
+            };
+        }
     }
 }

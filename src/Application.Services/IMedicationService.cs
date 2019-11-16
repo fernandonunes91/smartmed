@@ -1,11 +1,16 @@
 ﻿namespace Application.Services
 {
+    using Application.Dto;
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Application.Dto;
 
     public interface IMedicationService
     {
         Task<IEnumerable<Medication>> GetAll();
+
+        Task CreateAsync(Dto.Medication medication);
+
+        Task DeleteAsync(Guid id);
     }
 }
